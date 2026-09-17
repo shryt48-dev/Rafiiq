@@ -33,15 +33,16 @@ jobs:
           echo "33b6a2b64607f11b759f320ef9dff4ae5c47d97" > "$ANDROID_HOME/licenses/intel-android-extra-license"
           echo "d975f751698a77b662f1254ddbeed3901e976f5" > "$ANDROID_HOME/licenses/android-googletv-license"
           echo "9927b5f38dbf6bc4bb9b91a04e0da4ce2c0d5be1" > "$ANDROID_HOME/licenses/mips-android-sysimage-license"
-
-      - uses: android-actions/setup-android@v3
+          echo "sdk.dir=$ANDROID_HOME" > local.properties.template
 
       - run: npm install
       - run: npx cap add android
       - run: npx cap sync android
 
       - name: بناء APK
-        run: cd android && chmod +x gradlew && ./gradlew assembleDebug --no-daemon
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > android/local.properties
+          cd android && chmod +x gradlew && ./gradlew assembleDebug --no-daemon
 
       - uses: actions/upload-artifact@v4
         with:
