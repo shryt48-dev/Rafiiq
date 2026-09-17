@@ -23,7 +23,8 @@ jobs:
           node-version: '20'
 
       - uses: android-actions/setup-android@v3
-
+- name: Accept Android SDK licenses
+        run: yes | sdkmanager --licenses || true
       - run: npm install
       - run: npx cap add android
       - run: npx cap sync android
